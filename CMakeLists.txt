@@ -21,8 +21,7 @@ set(FTLIB_name ft)
 set(FTLIB_filename libft.a)
 set(FTLIB_dir ${CMAKE_CURRENT_SOURCE_DIR}/libft)
 add_custom_command(OUTPUT ${FTLIB_dir}/${FTLIB_filename}
-        COMMAND make -C ${FTLIB_dir}
-        )
+        COMMAND make -C ${FTLIB_dir})
 add_custom_target(${FTLIB_filename} DEPENDS ${FTLIB_dir}/${FTLIB_filename})
 
 add_library(${FTLIB_name} STATIC IMPORTED)
@@ -31,15 +30,9 @@ set_target_properties(${FTLIB_name} PROPERTIES
         IMPORTED_LOCATION ${FTLIB_dir}/${FTLIB_filename} # Make sure to use absolute path here
         INTERFACE_SOURCES "${FTLIB_HEADERS};${FTLIB_SOURCES}"
         INTERFACE_INCLUDE_DIRECTORIES "${FTLIB_dir}"
-        INTERFACE_COMPILE_DEFINITIONS "OPTIMISTIC"
-)
+        INTERFACE_COMPILE_DEFINITIONS "OPTIMISTIC")
 
 set(TARGET_NAME push_swap)
-set(TARGET_HEADERS
-        "")
-set(TARGET_SOURCES
-        "")
-
 file(GLOB TARGET_HEADERS "src/*.h")
 file(GLOB TARGET_SOURCES "src/*.c")
 
@@ -65,8 +58,7 @@ target_link_libraries(${TARGET_NAME} bsd ${FTLIB_name} Threads::Threads)
 set_target_properties(${TARGET_NAME} PROPERTIES
         ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib"
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib"
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin"
-)
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
 
 set(CHECKER_TARGET_NAME checker)
 file(GLOB TARGET_HEADERS "checker/*.h")
@@ -79,15 +71,15 @@ target_link_libraries(${CHECKER_TARGET_NAME} bsd ${FTLIB_name} Threads::Threads)
 set_target_properties(${CHECKER_TARGET_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
 
-set(TEST_TARGET_NAME test1)
-file(GLOB TEST_TARGET_HEADERS "tests/*.h")
-file(GLOB TEST_TARGET_SOURCES "tests/*.c")
-add_executable(${TEST_TARGET_NAME} ${TEST_TARGET_HEADERS} ${TEST_TARGET_SOURCES})
-target_include_directories(${TEST_TARGET_NAME} PRIVATE include src)
-target_compile_options(${TEST_TARGET_NAME} PRIVATE ${TARGET_CFLAGS})
-target_link_options(${TEST_TARGET_NAME} PRIVATE ${TARGET_LINK_FLAGS})
-target_link_libraries(${TEST_TARGET_NAME} bsd ${FTLIB_name} Threads::Threads)
-set_target_properties(${TEST_TARGET_NAME} PROPERTIES
+set(TEST1_TARGET_NAME test1)
+file(GLOB TEST1_TARGET_HEADERS "tests/*.h")
+file(GLOB TEST1_TARGET_SOURCES "tests/test1.c")
+add_executable(${TEST1_TARGET_NAME} ${TEST1_TARGET_HEADERS} ${TEST1_TARGET_SOURCES})
+target_include_directories(${TEST1_TARGET_NAME} PRIVATE include src)
+target_compile_options(${TEST1_TARGET_NAME} PRIVATE ${TARGET_CFLAGS})
+target_link_options(${TEST1_TARGET_NAME} PRIVATE ${TARGET_LINK_FLAGS})
+target_link_libraries(${TEST1_TARGET_NAME} bsd ${FTLIB_name} Threads::Threads)
+set_target_properties(${TEST1_TARGET_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
 
 # https://youtrack.jetbrains.com/issue/CPP-22289
@@ -118,20 +110,17 @@ add_test(NAME test1
         COMMAND
             ${BASH} -c "${test1_command}"
         WORKING_DIRECTORY
-            "${CMAKE_CURRENT_SOURCE_DIR}/bin"
-        )
+            "${CMAKE_CURRENT_SOURCE_DIR}/bin")
 add_test(NAME test2
         COMMAND
-            env "ARG='sa pb pb pb sa pa pa pa'" $<TARGET_FILE:${CHECKER_TARGET_NAME}> '2 1 3 6 5 8'
+            env "ARG='sa pb pb pb sa pa pa pa'" $<TARGET_FILE:${CHECKER_TARGET_NAME}> 2 1 3 6 5 8
         WORKING_DIRECTORY
-            "${CMAKE_CURRENT_SOURCE_DIR}/bin"
-        )
+            "${CMAKE_CURRENT_SOURCE_DIR}/bin")
 add_test(NAME test3
         COMMAND
             env ARG="2 1 3 6 5 8" $<TARGET_FILE:${TARGET_NAME}> 2 1 3 6 5 8
         WORKING_DIRECTORY
-            "${CMAKE_CURRENT_SOURCE_DIR}/bin"
-        )
+            "${CMAKE_CURRENT_SOURCE_DIR}/bin")
 add_test(NAME memcheck_${TARGET_NAME}
         COMMAND
             "${MEMORYCHECK_COMMAND}" ${MEMORYCHECK_COMMAND_OPTIONS} $<TARGET_FILE:${TARGET_NAME}>

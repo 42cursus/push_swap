@@ -66,7 +66,7 @@ t_dlist	*ft_dlist_push_back(t_dlist *list, t_dnode *dnode)
 	dnode->prev = NULL;
 	dnode->next = NULL;
 	list->head = dnode;
-	list->tail = dnode;
+	list->tail = dnode; 
 	return (list);
 }
 

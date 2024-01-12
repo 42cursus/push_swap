@@ -33,6 +33,19 @@ void	do_swap_a(t_dlist *dlist_a, t_dlist *dlist_b)
 		ft_dlist_push(dlist_a, dnode2);
 	}
 }
+void	do_swap_b(t_dlist *dlist_a, t_dlist *dlist_b)
+{
+	t_dnode	*dnode1;
+	t_dnode	*dnode2;
+
+	(void )dlist_b;
+	if (dlist_a->size > 1) {
+		dnode1 = ft_dlist_pop(dlist_b);
+		dnode2 = ft_dlist_pop(dlist_b);
+		ft_dlist_push(dlist_b, dnode1);
+		ft_dlist_push(dlist_b, dnode2);
+	}
+}
 
 void	do_push_a(t_dlist *dlist_a, t_dlist *dlist_b)
 {
@@ -53,6 +66,7 @@ void	do_push_b(t_dlist *dlist_a, t_dlist *dlist_b)
 
 static t_dispatch_f const	push_dispatch[] = {
 		[sa] = do_swap_a,
+		[sb] = do_swap_b,
 		[pb] = do_push_b,
 		[pa] = do_push_a
 };
@@ -61,9 +75,10 @@ int	main(int argc, char **argv)
 {
 	int		argg;
 	char	*str;
+	char	*tok;
 	char	*str0;
 	char	*saveptr;
-	char	tok[4];
+	char	buf[4];
 	int32_t	i;
 	t_dlist	*dlist_a;
 	t_dlist	*dlist_b;
@@ -85,16 +100,16 @@ int	main(int argc, char **argv)
 	if(!str)
 		return (EX_UNAVAILABLE);
 	str0 = ft_strtrim(str, "' '");
-	str = ft_strtok_r(str0, " ", &saveptr);
-	while (str && *str)
+	tok = ft_strtok_r(str0, " ", &saveptr);
+	while (tok && *tok)
 	{
-		*(int32_t *)tok = 0;
-		ft_strncpy(tok, str, 3);
-		i = *(int32_t *)tok;
+		*(int32_t *)buf = 0;
+		ft_strncpy(buf, tok, 3);
+		i = *(int32_t *)buf;
 
 		if (push_dispatch[i])
 			push_dispatch[i](dlist_a, dlist_b);
-		str = ft_strtok_r(NULL, " ", &saveptr);
+		tok = ft_strtok_r(NULL, " ", &saveptr);
 	}
 	ft_printf("=========\n");
 //	ft_printf("%s\n", (char *)(int []){sa});

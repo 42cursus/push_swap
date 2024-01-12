@@ -1,13 +1,17 @@
 # https://youtrack.jetbrains.com/issue/CPP-7090
 
 set confirm off
+set pagination off
+set height unlimited
 #set verbose on
 #set logging on
 set trace-commands on
 set print inferior-events on
 
 show debug-file-directory
+set disassembly-flavor intel
 set debug-file-directory /usr/lib/debug
+directory ~/git/c/42london/push_swap/src
 directory ~/staging/glibc-2.31
 directory ~/staging/glibc-2.31/elf
 directory ~/staging/glibc-2.31/nptl
@@ -49,7 +53,13 @@ if $argc == 8
     target extended-remote $arg0 $arg1 $arg2 $arg3 $arg4 $arg5 $arg6 $arg7
 end
 set breakpoint pending on
-break main
+br _start
+br _dl_start
+br _dl_start_final
+br _start
+br libc-start.c:308
+br libc-start.c:339
+br main
 
 #monitor reset halt
 info inferiors
