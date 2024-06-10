@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_tabdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/09 22:40:20 by abelov            #+#    #+#             */
-/*   Updated: 2024/06/09 22:40:21 by abelov           ###   ########.fr       */
+/*   Created: 2024/06/10 19:37:35 by abelov            #+#    #+#             */
+/*   Updated: 2024/06/10 19:37:35 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <sysexits.h>
 
-int main(int argc, char **argv)
+void	ft_tabdel(char **str_tab)
 {
-	if (argc <= 1)
-		exit(EX_USAGE);
-	return (EXIT_SUCCESS);
+	int i;
+
+	i = -1;
+	if (str_tab != NULL)
+	{
+		while (str_tab[++i] != NULL)
+			free(str_tab[i]);
+		free(str_tab);
+	}
 }

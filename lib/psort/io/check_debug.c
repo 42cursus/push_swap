@@ -1,34 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   check_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/09 22:19:07 by abelov            #+#    #+#             */
-/*   Updated: 2024/06/09 22:19:07 by abelov           ###   ########.fr       */
+/*   Created: 2024/06/10 15:53:11 by abelov            #+#    #+#             */
+/*   Updated: 2024/06/10 20:51:36 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pswap.h>
-#include <psortlib.h>
 
-int main(int argc, char **argv)
+int check_debug(t_pswap *pswap, char **argv, int arc)
 {
-	int	error_code;
-	t_pswap *pswap;
-
-	if (argc <= 1)
-		exit(EXIT_SUCCESS);
-	pswap = (t_pswap *) malloc(sizeof(t_pswap));
-	if (pswap == NULL)
-		return (-1);
-	error_code = ft_swap_parser(argc, argv, pswap);
-	if ((error_code == -1) || (error_code == -2))
+	if ((arc > 2) && (ft_strcmp(argv[1], "-d") == 0))
 	{
-		error_code = ft_error(pswap, error_code);
-		return (error_code);
+		pswap->debug = 1;
+		return (2);
 	}
-	free(pswap);
-	return (EXIT_SUCCESS);
+	pswap->debug = 0;
+	return (1);
 }

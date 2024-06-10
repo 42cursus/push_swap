@@ -1,24 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_copy_inttab.c                                   :+:      :+:    :+:   */
+/*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/09 22:59:18 by abelov            #+#    #+#             */
-/*   Updated: 2024/06/09 22:59:18 by abelov           ###   ########.fr       */
+/*   Created: 2024/06/10 15:16:25 by abelov            #+#    #+#             */
+/*   Updated: 2024/06/10 15:16:26 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	*ft_copy_inttab(int *stack, int *copy, int start, int finish)
+#include "utils.h"
+
+int	ft_check_dup(int *argtab, int argnb)
 {
 	int i;
+	int j;
 
 	i = 0;
-	while (i < finish - start + 1)
+	while (i < argnb)
 	{
-		copy[i] = stack[start + i];
+		j = 0;
+		while (j < argnb)
+		{
+			if (argtab[i] == argtab[j] && i != j)
+				return (-1);
+			else
+				j++;
+		}
 		i++;
 	}
-	return (copy);
+	return (0);
 }
+
+
+int	ft_error(t_pswap *pswap, int err_code)
+{
+	if (err_code == -1)
+	{
+		free(pswap->column_a);
+		free(pswap->column_b);
+	}
+	else if (err_code == -3)
+		ft_free(pswap);
+	free(pswap);
+	ft_putendl_fd("Error", 2);
+	return -1;
+}
+
+

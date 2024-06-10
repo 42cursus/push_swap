@@ -14,10 +14,7 @@ NAME			:= libpsort.a
 TOPDIR			= $(PWD)
 CC				:= cc
 CFLAGS			:= -Wall -Wextra -Werror -Wimplicit
-INCLUDE_FLAGS	:= -I. -I./include -I../ft/include -I/usr/include
-# GCC 8 implements -fmacro-prefix-map.
-#	Like -fdebug-prefix-map, it replaces a string prefix for the FILE macro.
-#	-ffile-prefix-map is the union of -fdebug-prefix-map and -fmacro-prefix-map
+INCLUDE_FLAGS	:= -I. -I./include -I../../include -I/usr/include
 DEBUG_FLAGS		:= -g3 -gdwarf-3 -ffile-prefix-map=$(TOPDIR)=./staging/
 
 CTAGS			:= ctags
@@ -25,7 +22,7 @@ LIB_COMMAND		:= ar rcs
 RM				:= /bin/rm
 
 SRCS	 		:=
-DIRS			:= utils
+DIRS			:= utils io
 
 include $(addsuffix /Makefile.mk,$(DIRS))
 

@@ -10,10 +10,11 @@
 #                                                                              #
 # **************************************************************************** #
 
-checker
-push_swap
+/checker
+/push_swap
 gdb.txt
-scratch/
+/scratch/
+/resources/
 build/
 replace-git-emails.sh
 **/build/
