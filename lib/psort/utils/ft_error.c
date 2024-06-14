@@ -38,8 +38,8 @@ int	ft_error(t_pswap *pswap, int err_code)
 {
 	if (err_code == -1)
 	{
-		free(pswap->column_a);
-		free(pswap->column_b);
+		free(pswap->stack_a);
+		free(pswap->stack_b);
 	}
 	else if (err_code == -3)
 		ft_free(pswap);

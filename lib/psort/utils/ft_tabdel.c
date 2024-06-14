@@ -16,9 +16,9 @@ void	ft_tabdel(char **str_tab)
 {
 	int i;
 
-	i = -1;
 	if (str_tab != NULL)
 	{
+		i = -1;
 		while (str_tab[++i] != NULL)
 			free(str_tab[i]);
 		free(str_tab);

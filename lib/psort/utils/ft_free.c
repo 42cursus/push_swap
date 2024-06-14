@@ -14,8 +14,8 @@
 
 void ft_free(t_pswap *pswap)
 {
-	free(pswap->column_a);
-	free(pswap->column_b);
+	free(pswap->stack_a);
+	free(pswap->stack_b);
 	free(pswap->sorted);
 	free(pswap->pibon_tab);
 	free(pswap->operations);

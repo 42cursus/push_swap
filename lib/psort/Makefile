@@ -22,7 +22,7 @@ LIB_COMMAND		:= ar rcs
 RM				:= /bin/rm
 
 SRCS	 		:=
-DIRS			:= utils io
+DIRS			:= utils io sort
 
 include $(addsuffix /Makefile.mk,$(DIRS))
 

@@ -15,14 +15,14 @@
 void	ft_init_pswap(t_pswap *pswap)
 {
 	pswap->sorted = ft_init_int_tab(pswap->arg_tab_size);
-	pswap->sorted = ft_copy_int_tab(pswap->column_a, pswap->sorted, 0, pswap->arg_tab_size - 1);
+	pswap->sorted = ft_copy_int_tab(pswap->stack_a, pswap->sorted, 0, pswap->arg_tab_size - 1);
 	pswap->sorted = ft_sort_int_tab(pswap->sorted, pswap->arg_tab_size);
 	pswap->sorted_min_nb = pswap->sorted[0];
 	pswap->sorted_max_nb = pswap->sorted[pswap->arg_tab_size - 1];
 	pswap->col_a_size = pswap->arg_tab_size;
 	pswap->col_b_size = 0;
-	if (pswap->column_a)
-		pswap->pibon_a = pswap->column_a[pswap->arg_tab_size - 1];
+	if (pswap->stack_a)
+		pswap->pibon_a = pswap->stack_a[pswap->arg_tab_size - 1];
 	pswap->pibon_tab = ft_init_int_tab(1);
 	pswap->pibon_tab_size = 1;
 	*pswap->pibon_tab = pswap->sorted_min_nb;
@@ -80,11 +80,11 @@ int ft_swap_parser(int argc, char **argv, t_pswap *pswap)
 		if (pswap->arg_tab_size == -1)
 			return (-2);
 	}
-	i = check_debug(pswap, argv, argc) - 1;
-	pswap->column_a = get_argtab(pswap->arg_tab_size, argv, i, 0);
-	if (pswap->column_a)
-		pswap->column_b = ft_init_int_tab(pswap->arg_tab_size);
-	if (ft_check_dup(pswap->column_a, pswap->arg_tab_size) == -1)
+	i = check_debug(pswap, argv, argc);
+	pswap->stack_a = get_argtab(pswap->arg_tab_size, argv, i, 0);
+	if (pswap->stack_a)
+		pswap->stack_b = ft_init_int_tab(pswap->arg_tab_size);
+	if (ft_check_dup(pswap->stack_a, pswap->arg_tab_size) == -1)
 		return (-1);
 	ft_init_pswap(pswap);
 	return (0);

@@ -13,10 +13,10 @@
 #include <pswap.h>
 #include <psortlib.h>
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	int	error_code;
-	t_pswap *pswap;
+	int		error_code;
+	t_pswap	*pswap;
 
 	if (argc <= 1)
 		exit(EXIT_SUCCESS);
@@ -25,10 +25,9 @@ int main(int argc, char **argv)
 		return (-1);
 	error_code = ft_swap_parser(argc, argv, pswap);
 	if ((error_code == -1) || (error_code == -2))
-	{
-		error_code = ft_error(pswap, error_code);
-		return (error_code);
-	}
+		return (ft_error(pswap, error_code));
+	ft_swap_draw_ascii(pswap);
+	ft_putstr(pswap->operations);
 	free(pswap);
 	return (EXIT_SUCCESS);
 }

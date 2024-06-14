@@ -14,15 +14,13 @@
 
 int ft_get_top_in_stack(t_pswap *pswap, char stack)
 {
-	int retval;
+	int	ret_val;
+
 	if (stack == 'a')
-		retval = pswap->arg_tab_size - pswap->col_a_size;
+		ret_val = pswap->arg_tab_size - pswap->col_a_size;
+	else if (stack == 'b')
+		ret_val = pswap->arg_tab_size - pswap->col_b_size;
 	else
-	{
-		if (stack == 'b')
-			retval = pswap->arg_tab_size - pswap->col_b_size;
-		else
-			retval = 0;
-	}
-	return (retval);
+		ret_val = 0;
+	return (ret_val);
 }

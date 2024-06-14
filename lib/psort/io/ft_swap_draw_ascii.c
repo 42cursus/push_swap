@@ -29,15 +29,15 @@ int column_a(t_pswap *pswap, int idx)
 {
 	int		nblen;
 	char	*fmt;
-	char	*const buf = (char[INT_MIN_LEN + 1]){' '};
+	char	*const buf = (char[INT_MIN_LEN + 1]){[0 ... INT_MIN_LEN] = ' '};
 
-	nblen = ft_nblen(pswap->column_a[idx]);
-	if ((pswap->pibon_a == pswap->column_a[idx]) && (pswap->top_in_a <= idx))
+	nblen = ft_nblen(pswap->stack_a[idx]);
+	if ((pswap->pibon_a == pswap->stack_a[idx]) && (pswap->top_in_a <= idx))
 		fmt = "|     * %d%s";
 	else
 		fmt = "|       %d%s";
-	buf[INT_MIN_LEN + 1 - nblen] = '\0';
-	ft_printf(fmt, pswap->column_a[idx], buf);
+	buf[INT_MIN_LEN - nblen] = '\0';
+	ft_printf(fmt, pswap->stack_a[idx], buf);
 	return idx;
 }
 
@@ -46,24 +46,24 @@ int column_b(t_pswap *pswap, int idx)
 	char	*fmt;
 	int		nblen;
 	int		b_is_pibon;
-	char	*const buf = (char[INT_MIN_LEN + 1]){' '};
+	char	*const buf = (char[INT_MIN_LEN + 1]){[0 ... INT_MIN_LEN] = ' '};
 
-	nblen = ft_nblen(pswap->column_a[idx]);
-	b_is_pibon = is_pibon(pswap->pibon_tab, pswap->pibon_tab_size, pswap->column_b[idx]);
+	nblen = ft_nblen(pswap->stack_a[idx]);
+	b_is_pibon = is_pibon(pswap->pibon_tab, pswap->pibon_tab_size, pswap->stack_b[idx]);
 	if ((b_is_pibon == 1) && (pswap->top_in_b <= idx))
 		fmt = "|     * %d%s";
 	else
 		fmt = "|       %d%s";
-	buf[INT_MIN_LEN + 1 - nblen] = '\0';
-	ft_printf(fmt, pswap->column_a[idx], buf);
+	buf[INT_MIN_LEN - nblen] = '\0';
+	ft_printf(fmt, pswap->stack_a[idx], buf);
 	ft_putstr_eol("|","\n");
 	return idx;
 }
 
 void ft_swap_draw_ascii(t_pswap *pswap)
 {
-	int uter;
-	int iter;
+	int	uter;
+	int	iter;
 
 	iter = -1;
 	if (pswap->debug == 1)
