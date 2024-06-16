@@ -10,6 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-FILES	= ft_get_top_in_stack.c
+FILES	= ft_swap_error.c \
+			ft_swap_free.c
 
 SRCS    += $(FILES:%.c=$(dir $(lastword $(MAKEFILE_LIST)))%.c)

@@ -47,9 +47,9 @@ set_target_properties(${FT_LIB_NAME} PROPERTIES
 
 # **************************************************************************** #
 
-set(PSWP_LIB_NAME psort)
-set(PSWP_LIB_FILENAME libpsort.a)
-set(PSWP_LIB_DIR "${PROJECT_SOURCE_DIR}/lib/psort")
+set(PSWP_LIB_NAME swap)
+set(PSWP_LIB_FILENAME libswap.a)
+set(PSWP_LIB_DIR "${PROJECT_SOURCE_DIR}/lib/swap")
 
 file(GLOB_RECURSE PSWP_LIB_HEADERS "${PSWP_LIB_DIR}/*.h")
 list(FILTER PSWP_LIB_HEADERS EXCLUDE REGEX "${PSWP_LIB_DIR}/test/*" )
@@ -60,7 +60,7 @@ add_custom_target(${PSWP_LIB_NAME}_target ALL
         COMMAND make -C ${PSWP_LIB_DIR}
         BYPRODUCTS "${PSWP_LIB_DIR}/${PSWP_LIB_FILENAME}"
         SOURCES "${PSWP_LIB_HEADERS};${PSWP_LIB_SOURCES}"
-        COMMENT "Building PSWP_LIB")
+        COMMENT "Building FTSWP_LIB")
 
 add_library(${PSWP_LIB_NAME} STATIC IMPORTED)
 add_dependencies(${PSWP_LIB_NAME} "${PSWP_LIB_NAME}_target")
@@ -116,3 +116,6 @@ target_compile_options(${TARGET_NAME} PRIVATE
 )
 target_include_directories(${TARGET_NAME} PRIVATE "${PROJECT_SOURCE_DIR}/include")
 target_link_libraries(${TARGET_NAME} "${TARGET_LIBRARIES}")
+
+
+# shuf --random-source=/dev/urandom -i 0-65000 -n 100 | tr '\n' ' ' && echo

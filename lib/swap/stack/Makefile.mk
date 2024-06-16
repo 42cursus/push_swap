@@ -5,11 +5,12 @@
 #                                                     +:+ +:+         +:+      #
 #    By: abelov <abelov@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/06/14 17:40:02 by abelov            #+#    #+#              #
-#    Updated: 2024/06/14 17:40:03 by abelov           ###   ########.fr        #
+#    Created: 2024/06/09 23:00:16 by abelov            #+#    #+#              #
+#    Updated: 2024/06/15 20:55:22 by abelov           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FILES	=
+FILES	= ft_swap_get_top.c \
+			ft_swap_ops
 
 SRCS    += $(FILES:%.c=$(dir $(lastword $(MAKEFILE_LIST)))%.c)

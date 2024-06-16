@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   ft_swap_get_top.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/10 15:30:37 by abelov            #+#    #+#             */
-/*   Updated: 2024/06/10 15:30:37 by abelov           ###   ########.fr       */
+/*   Created: 2024/06/10 20:29:56 by abelov            #+#    #+#             */
+/*   Updated: 2024/06/15 20:55:15 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
-# include <pswap.h>
-# include <unistd.h>
-# include <stdlib.h>
+#include "libswap.h"
 
-void	ft_free(t_pswap *pswap);
-int		ft_error(t_pswap *pswap, int err_code);
-void	ft_tabdel(char **str_tab);
-int		ft_check_dup(int *argtab, int argnb);
-#endif //UTILS_H
+int ft_swap_get_top(t_pswap *pswap, char stack)
+{
+	int	ret_val;
+
+	if (stack == 'a')
+		ret_val = pswap->arg_tab_size - pswap->stack_a_size;
+	else if (stack == 'b')
+		ret_val = pswap->arg_tab_size - pswap->stack_b_size;
+	else
+		ret_val = 0;
+	return (ret_val);
+}

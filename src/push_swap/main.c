@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <pswap.h>
-#include <psortlib.h>
 
 int	main(int argc, char **argv)
 {
@@ -23,11 +22,28 @@ int	main(int argc, char **argv)
 	pswap = (t_pswap *) malloc(sizeof(t_pswap));
 	if (pswap == NULL)
 		return (-1);
-	error_code = ft_swap_parser(argc, argv, pswap);
+	error_code = ft_swap_do_parse(argc, argv, pswap);
 	if ((error_code == -1) || (error_code == -2))
-		return (ft_error(pswap, error_code));
+		return (ft_swap_error(pswap, error_code));
 	ft_swap_draw_ascii(pswap);
+	do_sort(pswap);
+	optimize(pswap);
 	ft_putstr(pswap->operations);
 	free(pswap);
 	return (EXIT_SUCCESS);
+}
+
+void	do_sort(t_pswap *pswap)
+{
+	if (ft_swap_is_sorted(pswap) == 0 && pswap->top_a == 0)
+		return ;
+	else if (ft_swap_is_almost_sorted(pswap) == 1)
+		sort_almost_sorted(pswap);
+	else
+	{
+		if (pswap->arg_tab_size <= 3)
+			sort_few_numbers(pswap);
+		else
+			sort_random(pswap);
+	}
 }

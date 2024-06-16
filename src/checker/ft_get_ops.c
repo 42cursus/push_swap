@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_get_instructions.c                              :+:      :+:    :+:   */
+/*   ft_get_ops.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,37 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pswap.h>
+#include "pswap.h"
 
-void	swap_operations(t_pswap *pswap, char *instruction);
-void	push_operations(t_pswap *pswap, char *instruction);
-void	rotate_operations(t_pswap *pswap, char *instruction);
-void	reverse_operations(t_pswap *pswap, char *instruction);
-
-int	ft_get_ops(t_pswap *env)
+int ft_get_ops(t_pswap *pswap)
 {
 	char	*line;
 	int		i;
-	int		out_gnl;
+	int		ret_val;
 
 	i = 0;
-	out_gnl = ft_getline(0, &line);
-	while (i != -1 && (out_gnl == 1))
+	ret_val = 0;
+	while (i != -1 && (ft_getline(0, &line) == 1))
 	{
 		i++;
 		if (ft_strcmp(line, "sa\n") == 0 || ft_strcmp(line, "sb\n") == 0 || ft_strcmp(line, "ss\n") == 0)
-			swap_operations(env, line);
+			swap_operations(pswap, line);
 		else if (ft_strcmp(line, "pa\n") == 0 || ft_strcmp(line, "pb\n") == 0)
-			push_operations(env, line);
+			push_operations(pswap, line);
 		else if (ft_strcmp(line, "ra\n") == 0 || ft_strcmp(line, "rb\n") == 0 || ft_strcmp(line, "rr\n") == 0)
-			rotate_operations(env, line);
+			rotate_operations(pswap, line);
 		else if (ft_strcmp(line, "rra\n") == 0 || ft_strcmp(line, "rrb\n") == 0 || ft_strcmp(line, "rrr\n") == 0)
-			reverse_operations(env, line);
+			reverse_operations(pswap, line);
 		else
 			i = -1;
 		free(line);
 		line = NULL;
-		out_gnl = ft_getline(0, &line);
 	}
-	return (i != -1 && out_gnl != -1 ? 0 : -1);
+	if (i == -1)
+		ret_val = -1;
+	return (ret_val);
 }

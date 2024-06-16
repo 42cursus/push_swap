@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tabdel.c                                        :+:      :+:    :+:   */
+/*   ft_swap_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/10 19:37:35 by abelov            #+#    #+#             */
-/*   Updated: 2024/06/10 19:37:35 by abelov           ###   ########.fr       */
+/*   Created: 2024/06/10 15:25:16 by abelov            #+#    #+#             */
+/*   Updated: 2024/06/15 17:41:42 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <pswap.h>
 
-void	ft_tabdel(char **str_tab)
+void ft_swap_free(t_pswap *pswap)
 {
-	int i;
-
-	if (str_tab != NULL)
-	{
-		i = -1;
-		while (str_tab[++i] != NULL)
-			free(str_tab[i]);
-		free(str_tab);
-	}
+	free(pswap->stack_a);
+	free(pswap->stack_b);
+	free(pswap->sorted);
+	free(pswap->pivots_b);
+	free(pswap->operations);
 }

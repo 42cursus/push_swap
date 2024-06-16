@@ -13,28 +13,17 @@
 #ifndef PSWAP_H
 # define PSWAP_H
 
-# include "ft/libft.h"
+# include "libft.h"
+# include "libswap.h"
 
-typedef struct s_pswap t_pswap;
-struct s_pswap
-{
-	int arg_tab_size;
-	int sorted_min_nb;
-	int sorted_max_nb;
-	int *stack_a;
-	int *stack_b;
-	int col_a_size;
-	int col_b_size;
-	int top_in_a;
-	int top_in_b;
-	int pibon_a;
-	int *pibon_tab;
-	int pibon_b;
-	int pushed_pibon;
-	int pibon_tab_size;
-	int *sorted;
-	int debug;
-	char *operations;
-};
+void	do_sort(t_pswap *pswap);
+void	optimize(t_pswap *pswap);
+int		ft_get_ops(t_pswap *pswap);
+void	ft_check_few_in_a(t_pswap *pswap);
+void	sort_almost_sorted(t_pswap *pswap);
+void	sort_from_a_to_b_first_push(t_pswap *pswap, int pivot);
+void	sort_few_numbers(t_pswap *pswap);
+void	sort_random(t_pswap *pswap);
+void	sort_first_push(t_pswap *pswap, int pivot);
 
 #endif //PSWAP_H
