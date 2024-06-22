@@ -134,4 +134,7 @@ void	ft_swap_do_op(t_pswap *pswap, char *op)
 	tmp = ft_strjoin(pswap->operations, op);
 	free(pswap->operations);
 	pswap->operations = tmp;
+	tmp = ft_strdup(op);
+	ft_list_push_front(&pswap->ops, ft_strdup(ft_strtok(tmp, "\n")));
+	free(tmp);
 }

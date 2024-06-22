@@ -29,6 +29,9 @@ int	main(int argc, char **argv)
 	do_sort(pswap);
 	optimize(pswap);
 	ft_putstr(pswap->operations);
+	ft_putstr("\n==\n");
+	ft_list_reverse(&pswap->ops);
+	ft_list_foreach_ref(pswap->ops, (void (*)(void *, void *)) ft_putstr_eol, "\n");
 	free(pswap);
 	return (EXIT_SUCCESS);
 }
@@ -44,6 +47,6 @@ void	do_sort(t_pswap *pswap)
 		if (pswap->arg_tab_size <= 3)
 			sort_few_numbers(pswap);
 		else
-			sort_random(pswap);
+			ft_swap_sort_random(pswap);
 	}
 }

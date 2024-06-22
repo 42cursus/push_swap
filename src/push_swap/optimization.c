@@ -12,20 +12,30 @@
 
 #include "pswap.h"
 
-void	delete(t_pswap *pswap, char *operations)
+void	delete(t_pswap *pswap, char *to_remove)
 {
 	char	*tmp;
 	size_t	index;
 
-	while (ft_strstr(pswap->operations, operations) != NULL)
+	while (ft_strstr(pswap->operations, to_remove) != NULL)
 	{
-		index = ft_strstr(pswap->operations, operations) - pswap->operations;
-		tmp = ft_empty_string(ft_strlen(pswap->operations) - ft_strlen(operations));
+		index = ft_strstr(pswap->operations, to_remove) - pswap->operations;
+		tmp = ft_empty_string(ft_strlen(pswap->operations) - ft_strlen(to_remove));
 		tmp = ft_strncpy(tmp, pswap->operations, index);
-		tmp = ft_strcat(tmp, pswap->operations + index + ft_strlen(operations));
+		tmp = ft_strcat(tmp, pswap->operations + index + ft_strlen(to_remove));
 		free(pswap->operations);
 		pswap->operations = tmp;
 	}
+
+	t_list *sub_list;
+	sub_list = NULL;
+	tmp = ft_strdup(to_remove);
+	ft_list_push_front(&sub_list, ft_strdup(ft_strtok(tmp, "\n")));
+	ft_list_push_front(&sub_list, ft_strdup(ft_strtok(NULL, "\n")));
+	free(tmp);
+	ft_list_remove_sublist(&pswap->ops, sub_list,
+						   (int (*)(void *, void *)) ft_strcmp, free);
+	ft_list_destroy(&sub_list, free);
 }
 
 void	delete_operations(t_pswap *pswap)
@@ -56,6 +66,28 @@ void	replace(t_pswap *pswap, char *long_op, char *short_op)
 		free(pswap->operations);
 		pswap->operations = tmp;
 	}
+
+	t_list *to_find;
+	t_list *to_replace_with;
+	to_find = NULL;
+	tmp = ft_strdup(long_op);
+	ft_list_push_front(&to_find, ft_strdup(ft_strtok(tmp, "\n")));
+	ft_list_push_front(&to_find, ft_strdup(ft_strtok(NULL, "\n")));
+	free(tmp);
+	tmp = ft_strdup(short_op);
+	to_replace_with = ft_list_create_elem(ft_strdup(ft_strtok(tmp, "\n")));
+	free(tmp);
+	t_list_fun *const lst_fun = &(t_list_fun){
+		.cmp_fun = (int (*)(void *, void *)) ft_strcmp,
+		.del_fun = free,
+		.dup_fun = (void *(*)(void *)) ft_strdup
+	};
+	ft_list_replace_sublist(&pswap->ops,
+							to_find,
+							to_replace_with,
+							lst_fun);
+	ft_list_destroy(&to_replace_with, free);
+	ft_list_destroy(&to_find, free);
 }
 
 void	optimize(t_pswap *pswap)

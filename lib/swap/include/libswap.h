@@ -35,6 +35,7 @@ struct s_pswap
 	int *sorted;
 	int debug;
 	char *operations;
+	t_list *ops;
 };
 
 void	ft_swap_do_op(t_pswap *pswap, char *op);

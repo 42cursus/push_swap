@@ -30,6 +30,7 @@ void	ft_swap_init(t_pswap *pswap)
 	pswap->top_a = ft_swap_get_top(pswap, 'a');
 	pswap->top_b = ft_swap_get_top(pswap, 'b');
 	pswap->operations = ft_empty_string(1);
+	pswap->ops = NULL;
 }
 
 int *get_argtab(int arg_tab_size, char **argv, int i, int j)
