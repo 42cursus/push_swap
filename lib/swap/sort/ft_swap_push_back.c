@@ -16,7 +16,8 @@ int ft_swap_push_back(t_pswap *pswap)
 {
 	pswap->pivot_b = 0;
 	pswap->pushed_pivot = 0;
-	if (pswap->stack_b_size == 0 && ft_swap_is_sorted(pswap) == 0 && pswap->top_a == 0)
+	if (pswap->stack_b_size == 0
+		&& ft_swap_is_sorted(pswap) == 0 && pswap->top_a == 0)
 		return (0);
 	if (pswap->stack_b_size < 4 && pswap->stack_b_size > 0)
 		ft_swap_lt_four_nbrs_stack_b(pswap);

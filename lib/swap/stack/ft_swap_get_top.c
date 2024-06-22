@@ -12,7 +12,7 @@
 
 #include "libswap.h"
 
-int ft_swap_get_top(t_pswap *pswap, char stack)
+int	ft_swap_get_top(t_pswap *pswap, char stack)
 {
 	int	ret_val;
 

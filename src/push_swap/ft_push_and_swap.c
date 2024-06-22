@@ -14,18 +14,25 @@
 
 void	ft_check_few_in_a(t_pswap *pswap)
 {
+	int	last_in_a;
+	int	prev_to_last_in_a;
+
 	if (pswap->stack_a_size == 2)
 	{
-		if (pswap->stack_a[pswap->arg_tab_size - 1] >= pswap->stack_a[pswap->arg_tab_size - 2])
-			pswap->pivots_b[0] = pswap->stack_a[pswap->arg_tab_size - 2];
+		last_in_a = pswap->stack_a[pswap->arg_tab_size - 1];
+		prev_to_last_in_a = pswap->stack_a[pswap->arg_tab_size - 2];
+		if (last_in_a >= prev_to_last_in_a)
+			pswap->pivots_b[0] = prev_to_last_in_a;
 		else
-			pswap->pivots_b[0] = pswap->stack_a[pswap->arg_tab_size - 1];
-		if (pswap->stack_a[pswap->arg_tab_size - 1] > pswap->stack_a[pswap->arg_tab_size - 2])
-			ft_swap_do_op(pswap, "pb\n");
+			pswap->pivots_b[0] = last_in_a;
+		last_in_a = pswap->stack_a[pswap->arg_tab_size - 1];
+		prev_to_last_in_a = pswap->stack_a[pswap->arg_tab_size - 2];
+		if (last_in_a > prev_to_last_in_a)
+			ft_swap_do_op(pswap, pb);
 		else
 		{
-			ft_swap_do_op(pswap, "ra\n");
-			ft_swap_do_op(pswap, "pb\n");
+			ft_swap_do_op(pswap, pa);
+			ft_swap_do_op(pswap, pb);
 		}
 	}
 }
@@ -38,10 +45,9 @@ void	sort_almost_sorted(t_pswap *pswap)
 	while (pswap->stack_a[i] != pswap->sorted_max_nbr)
 		i++;
 	while (i >= pswap->arg_tab_size / 2 && ft_swap_is_sorted(pswap))
-		ft_swap_do_op(pswap, "rra\n");
+		ft_swap_do_op(pswap, rra);
 	while (i < pswap->arg_tab_size / 2 && ft_swap_is_sorted(pswap))
-		ft_swap_do_op(pswap, "ra\n");
-
+		ft_swap_do_op(pswap, ra);
 }
 
 void	sort_few_numbers(t_pswap *pswap)
@@ -54,55 +60,61 @@ void	sort_few_numbers(t_pswap *pswap)
 
 void	sort_from_a_to_b_first_push(t_pswap *pswap, int pivot)
 {
-	if (pswap->stack_a[ft_swap_get_top(pswap, 'a')] == pswap->sorted_min_nbr)
+	int	top_in_a;
+
+	top_in_a = ft_swap_get_top(pswap, 'a');
+	if (pswap->stack_a[top_in_a] == pswap->sorted_min_nbr)
 	{
-		ft_swap_do_op(pswap, "pb\n");
-		ft_swap_do_op(pswap, "rb\n");
+		ft_swap_do_op(pswap, pb);
+		ft_swap_do_op(pswap, rb);
 	}
-	else if (pswap->stack_a[ft_swap_get_top(pswap, 'a')] < pivot)
-		ft_swap_do_op(pswap, "pb\n");
-	else if (pswap->stack_a[ft_swap_get_top(pswap, 'a')] == pivot)
+	else if (pswap->stack_a[top_in_a] < pivot)
+		ft_swap_do_op(pswap, pb);
+	else if (pswap->stack_a[top_in_a] == pivot)
 	{
-		ft_swap_do_op(pswap, "pb\n");
-		ft_swap_do_op(pswap, "rb\n");
+		ft_swap_do_op(pswap, pb);
+		ft_swap_do_op(pswap, rb);
 		pswap->pushed_pivot = 1;
 	}
 	else
-		ft_swap_do_op(pswap, "ra\n");
+		ft_swap_do_op(pswap, ra);
 }
-
 
 void	ft_swap_sort_first_push(t_pswap *pswap, int pivot)
 {
-	while (ft_swap_chklteq_pivot(pswap->stack_a,
-								 ft_swap_get_top(pswap, 'a'),
-								 pswap->arg_tab_size, pivot) != -1)
+	while (ft_swap_chklteq_pivot(pswap->stack_a, ft_swap_get_top(pswap, 'a'),
+			pswap->arg_tab_size, pivot) != -1)
 		sort_from_a_to_b_first_push(pswap, pivot);
 	if (pswap->pushed_pivot == 1)
-		ft_swap_do_op(pswap, "rrb\n");
+		ft_swap_do_op(pswap, rrb);
 	if (pswap->stack_b[pswap->arg_tab_size - 1] == pivot)
 	{
-		ft_swap_do_op(pswap, "rrb\n");
-		ft_swap_do_op(pswap, "sb\n");
-		ft_swap_do_op(pswap, "rb\n");
+		ft_swap_do_op(pswap, rrb);
+		ft_swap_do_op(pswap, sb);
+		ft_swap_do_op(pswap, rb);
 	}
 	ft_swap_add_pivot_b(pswap, pivot);
 }
 
 void	ft_swap_sort_random(t_pswap *pswap)
 {
-	int		pivot_p;
+	int	pivot_p;
+	int	top_in_a;
 
 	while (pswap->stack_a_size > 1 && ft_swap_is_sorted(pswap) == -1)
 	{
 		pswap->pushed_pivot = 0;
-		pivot_p = ft_swap_get_pivot(pswap, 'a', ft_swap_get_top(pswap, 'a'), pswap->arg_tab_size - 1);
+		top_in_a = ft_swap_get_top(pswap, 'a');
+		pivot_p = ft_swap_get_pivot(pswap, 'a',
+				top_in_a, pswap->arg_tab_size - 1);
 		ft_swap_sort_first_push(pswap, pivot_p);
 		ft_check_few_in_a(pswap);
 	}
-	while (pswap->pivots_b_tab_size > 0 && pswap->pivots_b[0] >= pswap->stack_a[pswap->top_a])
+	while (pswap->pivots_b_tab_size > 0
+		&& pswap->pivots_b[0] >= pswap->stack_a[pswap->top_a])
 		ft_swap_remove_pivot_b(pswap);
 	pswap->pivot_a = pswap->stack_a[ft_swap_get_top(pswap, 'a')];
-	while (!(ft_swap_is_sorted(pswap) == 0 && pswap->stack_a_size == pswap->arg_tab_size))
+	while (!(ft_swap_is_sorted(pswap) == 0
+			&& pswap->stack_a_size == pswap->arg_tab_size))
 		ft_swap_push_back(pswap);
 }

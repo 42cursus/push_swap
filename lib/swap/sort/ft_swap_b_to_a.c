@@ -18,7 +18,7 @@ void	ft_swap_push_back_in_order(t_pswap *pswap)
 	{
 		if (pswap->pivots_b_tab_size > 0 && pswap->stack_b[pswap->top_b] == pswap->pivots_b[0])
 			ft_swap_remove_pivot_b(pswap);
-		ft_swap_do_op(pswap, "pa\n");
+		ft_swap_do_op(pswap, pa);
 		pswap->pivot_a = pswap->stack_a[pswap->top_a];
 	}
 }
@@ -48,19 +48,19 @@ void	ft_swap_push_b_to_a(t_pswap *pswap, int pivot, int *count_rotate)
 {
 	if (pswap->stack_b[pswap->top_b] >= pivot)
 	{
-		ft_swap_do_op(pswap, "pa\n");
+		ft_swap_do_op(pswap, pa);
 		if (pswap->stack_a[pswap->top_a] == pivot)
 		{
-			ft_swap_do_op(pswap, "ra\n");
+			ft_swap_do_op(pswap, ra);
 			pswap->pushed_pivot = 1;
 		}
 		if (pswap->stack_a[pswap->top_a] > pswap->stack_a[pswap->top_a + 1])
-			ft_swap_do_op(pswap, "sa\n");
+			ft_swap_do_op(pswap, sa);
 		pswap->pivot_a = ft_swap_pivot_a(pswap);
 	}
 	else if (pswap->stack_b_size > 1)
 	{
-		ft_swap_do_op(pswap, "rb\n");
+		ft_swap_do_op(pswap, rb);
 		(*count_rotate)++;
 	}
 }
@@ -68,10 +68,10 @@ void	ft_swap_push_b_to_a(t_pswap *pswap, int pivot, int *count_rotate)
 void	ft_swap_rotrev(t_pswap *pswap, int count_rotate)
 {
 	if (count_rotate > pswap->stack_b_size / 2)
-		ft_swap_do_op(pswap, "rb\n");
+		ft_swap_do_op(pswap, rb);
 	else
 		while (count_rotate--)
-			ft_swap_do_op(pswap, "rrb\n");
+			ft_swap_do_op(pswap, rrb);
 }
 
 void	ft_swap_sort_b_to_a(t_pswap *pswap, int pivot)
@@ -85,14 +85,14 @@ void	ft_swap_sort_b_to_a(t_pswap *pswap, int pivot)
 	ft_swap_rotrev(pswap, count_rotate);
 	if (pswap->pushed_pivot == 1)
 	{
-		ft_swap_do_op(pswap, "rra\n");
+		ft_swap_do_op(pswap, rra);
 		if (ft_swap_is_sorted(pswap) != 0)
 		{
-			ft_swap_do_op(pswap, "pb\n");
+			ft_swap_do_op(pswap, pb);
 			ft_swap_add_pivot_b(pswap, pivot);
 		}
 		if (pswap->stack_a[pswap->top_a] > pswap->stack_a[pswap->top_a + 1])
-			ft_swap_do_op(pswap, "sa\n");
+			ft_swap_do_op(pswap, sa);
 		pswap->pivot_a = ft_swap_pivot_a(pswap);
 	}
 }

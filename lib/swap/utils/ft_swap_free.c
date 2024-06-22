@@ -12,11 +12,18 @@
 
 #include <pswap.h>
 
-void ft_swap_free(t_pswap *pswap)
+void	ft_swap_free(t_pswap *pswap)
 {
 	free(pswap->stack_a);
 	free(pswap->stack_b);
 	free(pswap->sorted);
 	free(pswap->pivots_b);
 	free(pswap->operations);
+	ft_list_destroy(&pswap->ops, free);
+}
+
+void	ft_swap_destroy(t_pswap **pswap)
+{
+	ft_swap_free(*pswap);
+	*pswap = NULL;
 }

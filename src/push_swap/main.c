@@ -28,11 +28,9 @@ int	main(int argc, char **argv)
 	ft_swap_draw_ascii(pswap);
 	do_sort(pswap);
 	optimize(pswap);
-	ft_putstr(pswap->operations);
-	ft_putstr("\n==\n");
 	ft_list_reverse(&pswap->ops);
 	ft_list_foreach_ref(pswap->ops, (void (*)(void *, void *)) ft_putstr_eol, "\n");
-	free(pswap);
+	ft_swap_destroy(&pswap);
 	return (EXIT_SUCCESS);
 }
 

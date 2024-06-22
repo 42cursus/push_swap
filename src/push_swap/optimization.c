@@ -52,8 +52,13 @@ void	delete_operations(t_pswap *pswap)
 
 void	replace(t_pswap *pswap, char *long_op, char *short_op)
 {
-	char	*tmp;
-	size_t	index;
+	char				*tmp;
+	size_t				index;
+	t_list_fun *const	lst_fun = &(t_list_fun){
+	.cmp_fun = (int (*)(void *, void *)) ft_strcmp,
+	.del_fun = free,
+	.dup_fun = (void *(*)(void *)) ft_strdup
+	};
 
 	while (ft_strstr(pswap->operations, long_op) != NULL)
 	{
@@ -77,11 +82,7 @@ void	replace(t_pswap *pswap, char *long_op, char *short_op)
 	tmp = ft_strdup(short_op);
 	to_replace_with = ft_list_create_elem(ft_strdup(ft_strtok(tmp, "\n")));
 	free(tmp);
-	t_list_fun *const lst_fun = &(t_list_fun){
-		.cmp_fun = (int (*)(void *, void *)) ft_strcmp,
-		.del_fun = free,
-		.dup_fun = (void *(*)(void *)) ft_strdup
-	};
+
 	ft_list_replace_sublist(&pswap->ops,
 							to_find,
 							to_replace_with,

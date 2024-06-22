@@ -10,12 +10,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libswap.h"
+
+void	init_swap_ops(t_swap_op **swap_ops, int *size)
+{
+	static t_swap_op	ops[] = {
+	{.opcode = sa, .fun = ft_swap_do_sa_op},
+	{.opcode = sb, .fun = ft_swap_do_sb_op},
+	{.opcode = ss, .fun = ft_swap_do_ss_op},
+	{.opcode = pa, .fun = ft_swap_do_pa_op},
+	{.opcode = pb, .fun = ft_swap_do_pb_op},
+	{.opcode = ra, .fun = ft_swap_do_ra_op},
+	{.opcode = rb, .fun = ft_swap_do_rb_op},
+	{.opcode = rr, .fun = ft_swap_do_rr_op},
+	{.opcode = rra, .fun = ft_swap_do_rra_op},
+	{.opcode = rrb, .fun = ft_swap_do_rrb_op},
+	{.opcode = rrr, .fun = ft_swap_do_rrr_op}
+	};
+
+	*swap_ops = ops;
+	*size = sizeof(ops) / sizeof(ops[0]);
+	qsort(ops, *size, sizeof(ops[0]), ft_swap_op_cmp);
+}
 
 void	ft_swap_init(t_pswap *pswap)
 {
 	pswap->sorted = ft_tab_int_init(pswap->arg_tab_size);
-	pswap->sorted = ft_copy_int_tab(pswap->stack_a, pswap->sorted, 0, pswap->arg_tab_size - 1);
+	pswap->sorted = ft_copy_int_tab(pswap->stack_a, pswap->sorted,
+			0, pswap->arg_tab_size - 1);
 	pswap->sorted = ft_sort_int_tab(pswap->sorted, pswap->arg_tab_size);
 	pswap->sorted_min_nbr = pswap->sorted[0];
 	pswap->sorted_max_nbr = pswap->sorted[pswap->arg_tab_size - 1];
@@ -31,13 +54,14 @@ void	ft_swap_init(t_pswap *pswap)
 	pswap->top_b = ft_swap_get_top(pswap, 'b');
 	pswap->operations = ft_empty_string(1);
 	pswap->ops = NULL;
+	init_swap_ops(&pswap->swap_ops, &pswap->swap_ops_size);
 }
 
-int *get_argtab(int arg_tab_size, char **argv, int i, int j)
+int	*get_argtab(int arg_tab_size, char **argv, int i, int j)
 {
-	int *tab;
-	char **argtab;
-	int k;
+	int		k;
+	int		*tab;
+	char	**argtab;
 
 	tab = ft_tab_int_init(arg_tab_size);
 	while (argv[i] && tab)
@@ -58,10 +82,10 @@ int *get_argtab(int arg_tab_size, char **argv, int i, int j)
 	return (tab);
 }
 
-int ft_swap_do_parse(int argc, char **argv, t_pswap *pswap)
+int	ft_swap_do_parse(int argc, char **argv, t_pswap *pswap)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	pswap->arg_tab_size = 0;
 	pswap->stack_a_size = 0;

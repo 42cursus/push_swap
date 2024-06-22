@@ -32,7 +32,7 @@ void ft_swap_push_a_to_b(t_pswap *pswap)
 		top_in_a = ft_swap_get_top(pswap, 'a');
 		if (pswap->stack_a_size && (pivot_index - top_in_a) > 1)
 		{
-			ft_swap_do_op(pswap, "pb\n");
+			ft_swap_do_op(pswap, pb);
 			ft_swap_add_pivot_b(pswap, pivot);
 		}
 	}
@@ -51,7 +51,7 @@ int ft_swap_sort_a_to_b(t_pswap *pswap, int pivot, int count_rotations)
 			ft_swap_lteq_pivot(pswap, pivot);
 		else
 		{
-			ft_swap_do_op(pswap, "ra\n");
+			ft_swap_do_op(pswap, ra);
 			count_rotations++;
 		}
 	}
@@ -70,9 +70,9 @@ void ft_swap_rot_pivot_min(t_pswap *pswap, int pivot, int rotations)
 	if (pswap->stack_b[pswap->arg_tab_size - 1] != pivot
 		&& pswap->stack_b[pswap->arg_tab_size - 1] != pswap->sorted_min_nbr)
 	{
-		ft_swap_do_op(pswap, "rrb\n");
-		ft_swap_do_op(pswap, "sb\n");
-		ft_swap_do_op(pswap, "rb\n");
+		ft_swap_do_op(pswap, rrb);
+		ft_swap_do_op(pswap, sb);
+		ft_swap_do_op(pswap, rb);
 		ft_swap_add_pivot_b(pswap, pswap->stack_b[pswap->top_b]);
 	}
 	pswap->pushed_pivot = 0;
@@ -82,7 +82,7 @@ void ft_swap_rot_pivot_min(t_pswap *pswap, int pivot, int rotations)
 	pivot = ft_swap_get_pivot(pswap, 'a', index_max, pswap->arg_tab_size - 1);
 	while (rotations--)
 	{
-		ft_swap_do_op(pswap, "rra\n");
+		ft_swap_do_op(pswap, rra);
 		if (pswap->stack_a[pswap->top_a] <= pivot)
 			ft_swap_lteq_pivot(pswap, pivot);
 		ft_swap_chktop_both_stacks(pswap);

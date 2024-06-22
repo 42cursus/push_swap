@@ -10,7 +10,11 @@
 #                                                                              #
 # **************************************************************************** #
 
-FILES	= ft_swap_get_top.c \
-			ft_swap_ops
+FILES	= ft_swap_do_op.c \
+            ft_swap_do_push_op.c \
+            ft_swap_do_rev_rot_op.c \
+            ft_swap_do_rotate_op.c \
+            ft_swap_do_swap_op.c \
+            ft_swap_get_top.c
 
 SRCS    += $(FILES:%.c=$(dir $(lastword $(MAKEFILE_LIST)))%.c)
