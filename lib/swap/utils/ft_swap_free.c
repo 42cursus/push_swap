@@ -25,5 +25,6 @@ void	ft_swap_free(t_pswap *pswap)
 void	ft_swap_destroy(t_pswap **pswap)
 {
 	ft_swap_free(*pswap);
+	free(*pswap);
 	*pswap = NULL;
 }

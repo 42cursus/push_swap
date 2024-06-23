@@ -12,11 +12,11 @@
 
 #include "pswap.h"
 
-void	delete(t_pswap *pswap, char *op1, char *op2)
+void	delete(t_pswap *pswap, const char *op1, const char *op2)
 {
 	t_list	*to_delete;
 
-	to_delete = ft_list_push_strs(2, (char *[2]){op1, op2});
+	to_delete = ft_list_push_strs(2, (const char *[2]){op1, op2});
 	ft_list_remove_sublist(&pswap->ops, to_delete,
 		(__compar_fn_t) ft_strcmp, NULL);
 	ft_list_destroy(&to_delete, NULL);
@@ -34,18 +34,19 @@ void	delete_operations(t_pswap *pswap)
 	delete(pswap, "rra", "ra");
 }
 
-void	replace(t_pswap *pswap, char *op1, char *op2, char *short_op)
+void	replace(t_pswap *pswap, const char *op1,
+				const char *op2, const char *short_op)
 {
 	t_list				*to_find;
 	t_list				*to_replace_with;
 	t_list_fun *const	lst_fun = &(t_list_fun){
 		.cmp_fun = (t_cmp_fun) ft_strcmp,
 		.del_fun = NULL,
-		.dup_fun = (void *(*)(void *)) ft_strdup
+		.dup_fun = NULL
 	};
 
-	to_find = ft_list_push_strs(2, (char *[2]){op1, op2});
-	to_replace_with = ft_list_push_strs(1, (char *[1]){short_op});
+	to_find = ft_list_push_strs(2, (const char *[2]){op1, op2});
+	to_replace_with = ft_list_push_strs(1, (const char *[1]){short_op});
 	ft_list_replace_sublist(&pswap->ops, to_find, to_replace_with, lst_fun);
 	ft_list_destroy(&to_replace_with, NULL);
 	ft_list_destroy(&to_find, NULL);
