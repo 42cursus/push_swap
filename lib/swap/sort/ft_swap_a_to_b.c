@@ -12,25 +12,24 @@
 
 #include "libswap.h"
 
-void ft_swap_push_a_to_b(t_pswap *pswap)
+void	ft_swap_push_a_to_b(t_pswap *pswap)
 {
 	int		pivot;
 	int		count_rotations;
 	int		top_in_a;
-	int		pivot_index;
+	int		piv_idx;
 
 	top_in_a = ft_swap_get_top(pswap, 'a');
-	pivot_index = ft_swap_get_pivot_index(pswap, 'a');
-	pivot = ft_swap_get_pivot(pswap, 'a', top_in_a, pivot_index);
-	while ((ft_swap_get_pivot_index(pswap, 'a') - pswap->top_a > 1)
-		   && ft_swap_is_sorted(pswap) == -1)
+	piv_idx = ft_swap_get_pi(pswap, 'a');
+	pivot = ft_swap_get_pivot(pswap, 'a', top_in_a, piv_idx);
+	while ((piv_idx - pswap->top_a > 1) && ft_swap_is_sorted(pswap) == -1)
 	{
 		pswap->pushed_pivot = 0;
 		count_rotations = ft_swap_sort_a_to_b(pswap, pivot, 0);
 		ft_swap_rot_pivot_min(pswap, pivot, count_rotations);
-		pivot_index = ft_swap_get_pivot_index(pswap, 'a');
+		piv_idx = ft_swap_get_pi(pswap, 'a');
 		top_in_a = ft_swap_get_top(pswap, 'a');
-		if (pswap->stack_a_size && (pivot_index - top_in_a) > 1)
+		if (pswap->stack_a_size && (piv_idx - top_in_a) > 1)
 		{
 			ft_swap_do_op(pswap, pb);
 			ft_swap_add_pivot_b(pswap, pivot);
@@ -40,14 +39,14 @@ void ft_swap_push_a_to_b(t_pswap *pswap)
 		pswap->pivot_a = ft_swap_pivot_a(pswap);
 }
 
-int ft_swap_sort_a_to_b(t_pswap *pswap, int pivot, int count_rotations)
+int	ft_swap_sort_a_to_b(t_pswap *pswap, int pivot, int count_rotations)
 {
 	pswap->pivot_a = ft_swap_pivot_a(pswap);
 	while (pswap->stack_a_size
 		&& pswap->stack_a[pswap->top_a] != pswap->pivot_a)
 	{
 		if (pswap->top_a != 0 && pswap->stack_a[pswap->top_a] <= pivot
-			&& pivot != pswap->sorted[ft_swap_get_pivot_index(pswap, 'a') - 1])
+			&& pivot != pswap->sorted[ft_swap_get_pi(pswap, 'a') - 1])
 			ft_swap_lteq_pivot(pswap, pivot);
 		else
 		{
@@ -62,13 +61,14 @@ int ft_swap_sort_a_to_b(t_pswap *pswap, int pivot, int count_rotations)
 	return (count_rotations);
 }
 
-void ft_swap_rot_pivot_min(t_pswap *pswap, int pivot, int rotations)
+void	ft_swap_rot_pivot_min(t_pswap *pswap, int pivot, int rotations)
 {
 	int		index_max;
 
 	ft_swap_rotate_pivot_b(pswap);
 	if (pswap->stack_b[pswap->arg_tab_size - 1] != pivot
-		&& pswap->stack_b[pswap->arg_tab_size - 1] != pswap->sorted_min_nbr)
+		&& pswap->stack_b[pswap->arg_tab_size - 1]
+		!= pswap->sorted_min_nbr)
 	{
 		ft_swap_do_op(pswap, rrb);
 		ft_swap_do_op(pswap, sb);
@@ -77,8 +77,7 @@ void ft_swap_rot_pivot_min(t_pswap *pswap, int pivot, int rotations)
 	}
 	pswap->pushed_pivot = 0;
 	index_max = ft_tab_int_get_index(pswap->stack_a, pswap->top_a,
-									 pswap->arg_tab_size - 1,
-									 pswap->sorted_max_nbr) + 1;
+			pswap->arg_tab_size - 1, pswap->sorted_max_nbr) + 1;
 	pivot = ft_swap_get_pivot(pswap, 'a', index_max, pswap->arg_tab_size - 1);
 	while (rotations--)
 	{

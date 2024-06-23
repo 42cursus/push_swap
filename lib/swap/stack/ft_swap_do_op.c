@@ -12,16 +12,21 @@
 
 #include "libswap.h"
 
-void	ft_swap_do_op(t_pswap *pswap, int op)
+void	ft_swap_do_op(t_pswap *pswap, int opcode)
 {
-	char	*tmp;
+	t_swap_op *const	to_find = &(t_swap_op){.opcode = opcode};
+	t_swap_op			*op;
+	t_object_arr		*object_arr;
 
-	ft_swap_apply_op(pswap, op);
-	tmp = ft_strjoin(pswap->operations, (char *)&op);
-	free(pswap->operations);
-	pswap->operations = ft_strjoin(tmp, "\n");
-	free(tmp);
-	ft_list_push_front(&pswap->ops, ft_strdup((char *)&op));
+	object_arr = &(t_object_arr){
+		.base = pswap->swap_ops,
+		.total_elems = pswap->swap_ops_size,
+		.size = sizeof(t_swap_op)
+	};
+	op = ft_bsearch(to_find, object_arr, ft_swap_op_cmp);
+	op->fun(pswap);
+	ft_swap_draw_ascii(pswap);
+	ft_list_push_front(&pswap->ops, &op->instruction);
 }
 
 int	ft_swap_op_cmp(const void *a, const void *b)
@@ -30,15 +35,4 @@ int	ft_swap_op_cmp(const void *a, const void *b)
 	const t_swap_op	*op2 = b;
 
 	return ((op1->opcode) - (op2->opcode));
-}
-
-void	ft_swap_apply_op(t_pswap *pswap, int opcode)
-{
-	t_swap_op *const	to_find = &(t_swap_op){.opcode = opcode};
-	t_swap_op			*op;
-
-	op = bsearch(to_find, pswap->swap_ops, pswap->swap_ops_size,
-			sizeof(t_swap_op), ft_swap_op_cmp);
-	op->fun(pswap);
-	ft_swap_draw_ascii(pswap);
 }

@@ -23,7 +23,7 @@ void	ft_check_few_in_a(t_pswap *pswap);
 void	sort_almost_sorted(t_pswap *pswap);
 void	sort_from_a_to_b_first_push(t_pswap *pswap, int pivot);
 void	sort_few_numbers(t_pswap *pswap);
-void	ft_swap_sort_random(t_pswap *pswap);
+void	ft_swap_qsort(t_pswap *pswap);
 void	ft_swap_sort_first_push(t_pswap *pswap, int pivot);
 
 #endif //PSWAP_H

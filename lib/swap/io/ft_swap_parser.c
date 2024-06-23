@@ -31,7 +31,24 @@ void	init_swap_ops(t_swap_op **swap_ops, int *size)
 
 	*swap_ops = ops;
 	*size = sizeof(ops) / sizeof(ops[0]);
-	qsort(ops, *size, sizeof(ops[0]), ft_swap_op_cmp);
+	ft_qsort(ops, *size, sizeof(ops[0]), ft_swap_op_cmp);
+}
+
+void	init_suboptimal_ops(const char *(**ptr)[2], int *size)
+{
+	static const char	*ops[][2] = {
+	{"pa", "pb"},
+	{"pb", "pa"},
+	{"ra", "rra"},
+	{"rra", "ra"},
+	{"rb", "rrb"},
+	{"rrb", "rb"},
+	{"sa", "sa"},
+	{"sb", "sb"}
+	};
+
+	*ptr = ops;
+	*size = sizeof(ops) / (sizeof(ops[0]));
 }
 
 void	ft_swap_init(t_pswap *pswap)
@@ -55,6 +72,7 @@ void	ft_swap_init(t_pswap *pswap)
 	pswap->operations = ft_empty_string(1);
 	pswap->ops = NULL;
 	init_swap_ops(&pswap->swap_ops, &pswap->swap_ops_size);
+	init_suboptimal_ops(&pswap->suboptimal_ops, &pswap->suboptimal_ops_size);
 }
 
 int	*get_argtab(int arg_tab_size, char **argv, int i, int j)

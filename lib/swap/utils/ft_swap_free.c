@@ -19,7 +19,7 @@ void	ft_swap_free(t_pswap *pswap)
 	free(pswap->sorted);
 	free(pswap->pivots_b);
 	free(pswap->operations);
-	ft_list_destroy(&pswap->ops, free);
+	ft_list_destroy(&pswap->ops, NULL);
 }
 
 void	ft_swap_destroy(t_pswap **pswap)

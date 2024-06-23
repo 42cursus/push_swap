@@ -28,7 +28,7 @@ int	ft_swap_check_dup(const int *argtab, int argnb)
 	return (0);
 }
 
-int ft_swap_validate_input(char *nb)
+int	ft_swap_validate_input(char *nb)
 {
 	int			i;
 	long long	n;

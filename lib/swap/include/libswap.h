@@ -20,8 +20,8 @@
  * https://stackoverflow.com/questions/17867391
  */
 
-typedef struct s_pswap t_pswap;
-typedef void (*t_swap_fun)(t_pswap *);
+typedef struct s_pswap	t_pswap;
+typedef void			(*t_swap_fun)(t_pswap *);
 typedef struct s_swap_operation
 {
 	union
@@ -61,29 +61,30 @@ typedef enum command
 
 struct s_pswap
 {
-	int			arg_tab_size;
-	int			sorted_min_nbr;
-	int			sorted_max_nbr;
-	int			*stack_a;
-	int			*stack_b;
-	int			stack_a_size;
-	int			stack_b_size;
-	int			top_a;
-	int			top_b;
-	int			pivot_a;
-	int			pivot_b;
-	int			*pivots_b;
-	int			pivots_b_tab_size;
-	int			pushed_pivot;
-	int			*sorted;
-	int			debug;
-	char		*operations;
-	t_list		*ops;
-	t_swap_op	*swap_ops;
-	int			swap_ops_size;
+	int				arg_tab_size;
+	int				sorted_min_nbr;
+	int				sorted_max_nbr;
+	int				*stack_a;
+	int				top_a;
+	int				pivot_a;
+	int				stack_a_size;
+	int				stack_b_size;
+	int				*stack_b;
+	int				top_b;
+	int				pivot_b;
+	int				*pivots_b;
+	int				pivots_b_tab_size;
+	int				pushed_pivot;
+	int				*sorted;
+	int				debug;
+	char			*operations;
+	t_list			*ops;
+	t_swap_op		*swap_ops;
+	int				swap_ops_size;
+	const	char	*(*suboptimal_ops)[2];
+	int				suboptimal_ops_size;
 };
 
-void	ft_swap_apply_op(t_pswap *pswap, int op);
 void	ft_swap_do_op(t_pswap *pswap, int op);
 int		ft_swap_op_cmp(const void *a, const void *b);
 void	ft_swap_do_sa_op(t_pswap *pswap);
@@ -116,7 +117,7 @@ int		ft_swap_validate_input(char *nb);
 void	ft_swap_add_pivot_b(t_pswap *pswap, int pivot);
 void	ft_swap_remove_pivot_b(t_pswap *pswap);
 int		ft_swap_get_pivot(t_pswap *pswap, char stack_name, int first, int last);
-int		ft_swap_get_pivot_index(t_pswap *pswap, char stack);
+int		ft_swap_get_pi(t_pswap *pswap, char stack);
 int		ft_swap_get_curr_pivot_b(t_pswap *pswap);
 int		ft_swap_pivot_a(t_pswap *pswap);
 void	ft_swap_rot_pivot_min(t_pswap *pswap, int pivot, int rotations);
@@ -134,7 +135,6 @@ int		ft_swap_push_to(t_pswap *pswap);
 int		ft_swap_push_back(t_pswap *pswap);
 
 void	ft_swap_push_a_to_b(t_pswap *pswap);
-
 
 void	ft_swap_sort_b_to_a(t_pswap *pswap, int pivot);
 int		ft_swap_sort_a_to_b(t_pswap *pswap, int pivot, int count_rotations);

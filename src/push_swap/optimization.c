@@ -12,100 +12,75 @@
 
 #include "pswap.h"
 
-void	delete(t_pswap *pswap, char *to_remove)
+void	delete(t_pswap *pswap, char *op1, char *op2)
 {
-	char	*tmp;
-	size_t	index;
+	t_list	*to_delete;
 
-	while (ft_strstr(pswap->operations, to_remove) != NULL)
-	{
-		index = ft_strstr(pswap->operations, to_remove) - pswap->operations;
-		tmp = ft_empty_string(ft_strlen(pswap->operations) - ft_strlen(to_remove));
-		tmp = ft_strncpy(tmp, pswap->operations, index);
-		tmp = ft_strcat(tmp, pswap->operations + index + ft_strlen(to_remove));
-		free(pswap->operations);
-		pswap->operations = tmp;
-	}
-
-	t_list *sub_list;
-	sub_list = NULL;
-	tmp = ft_strdup(to_remove);
-	ft_list_push_front(&sub_list, ft_strdup(ft_strtok(tmp, "\n")));
-	ft_list_push_front(&sub_list, ft_strdup(ft_strtok(NULL, "\n")));
-	free(tmp);
-	ft_list_remove_sublist(&pswap->ops, sub_list,
-						   (int (*)(void *, void *)) ft_strcmp, free);
-	ft_list_destroy(&sub_list, free);
+	to_delete = ft_list_push_strs(2, (char *[2]){op1, op2});
+	ft_list_remove_sublist(&pswap->ops, to_delete,
+		(__compar_fn_t) ft_strcmp, NULL);
+	ft_list_destroy(&to_delete, NULL);
 }
 
 void	delete_operations(t_pswap *pswap)
 {
-	delete(pswap, "\npa\npb");
-	delete(pswap, "\npb\npa");
-	delete(pswap, "\nra\nrra");
-	delete(pswap, "\nrb\nrrb");
-	delete(pswap, "\nrra\nra");
-	delete(pswap, "\nrrb\nrb");
-	delete(pswap, "\nsa\nsa");
-	delete(pswap, "\nsb\nsb");
+	delete(pswap, "pa", "pb");
+	delete(pswap, "pb", "pa");
+	delete(pswap, "ra", "rra");
+	delete(pswap, "rb", "rrb");
+	delete(pswap, "sa", "sa");
+	delete(pswap, "sb", "sb");
+	delete(pswap, "rrb", "rb");
+	delete(pswap, "rra", "ra");
 }
 
-void	replace(t_pswap *pswap, char *long_op, char *short_op)
+void	replace(t_pswap *pswap, char *op1, char *op2, char *short_op)
 {
-	char				*tmp;
-	size_t				index;
+	t_list				*to_find;
+	t_list				*to_replace_with;
 	t_list_fun *const	lst_fun = &(t_list_fun){
-	.cmp_fun = (int (*)(void *, void *)) ft_strcmp,
-	.del_fun = free,
-	.dup_fun = (void *(*)(void *)) ft_strdup
+		.cmp_fun = (t_cmp_fun) ft_strcmp,
+		.del_fun = NULL,
+		.dup_fun = (void *(*)(void *)) ft_strdup
 	};
 
-	while (ft_strstr(pswap->operations, long_op) != NULL)
+	to_find = ft_list_push_strs(2, (char *[2]){op1, op2});
+	to_replace_with = ft_list_push_strs(1, (char *[1]){short_op});
+	ft_list_replace_sublist(&pswap->ops, to_find, to_replace_with, lst_fun);
+	ft_list_destroy(&to_replace_with, NULL);
+	ft_list_destroy(&to_find, NULL);
+}
+
+int	contains_suboptimal(t_pswap *pswap)
+{
+	int			iter;
+	int			is_found;
+	t_list		*to_find;
+	const char	**suboptimal_ops;
+
+	iter = -1;
+	is_found = false;
+	while (++iter < pswap->suboptimal_ops_size)
 	{
-		index = ft_strstr(pswap->operations, long_op) - pswap->operations;
-		tmp = ft_empty_string(ft_strlen(pswap->operations) - ft_strlen(long_op)
-							  + ft_strlen(short_op));
-		tmp = ft_strncpy(tmp, pswap->operations, index);
-		tmp = ft_strcat(tmp, short_op);
-		tmp = ft_strcat(tmp, pswap->operations + index + ft_strlen(long_op));
-		free(pswap->operations);
-		pswap->operations = tmp;
+		suboptimal_ops = pswap->suboptimal_ops[iter];
+		to_find = ft_list_push_strs(2, suboptimal_ops);
+		is_found = ft_list_find_sublist(pswap->ops, to_find,
+				(__compar_fn_t) ft_strcmp) != NULL;
+		ft_list_destroy(&to_find, NULL);
+		if (is_found == true)
+			break ;
 	}
-
-	t_list *to_find;
-	t_list *to_replace_with;
-	to_find = NULL;
-	tmp = ft_strdup(long_op);
-	ft_list_push_front(&to_find, ft_strdup(ft_strtok(tmp, "\n")));
-	ft_list_push_front(&to_find, ft_strdup(ft_strtok(NULL, "\n")));
-	free(tmp);
-	tmp = ft_strdup(short_op);
-	to_replace_with = ft_list_create_elem(ft_strdup(ft_strtok(tmp, "\n")));
-	free(tmp);
-
-	ft_list_replace_sublist(&pswap->ops,
-							to_find,
-							to_replace_with,
-							lst_fun);
-	ft_list_destroy(&to_replace_with, free);
-	ft_list_destroy(&to_find, free);
+	return (is_found);
 }
 
 void	optimize(t_pswap *pswap)
 {
-	while (ft_strstr(pswap->operations, "\npa\npb") != NULL
-		|| ft_strstr(pswap->operations, "\npb\npa") != NULL
-		|| ft_strstr(pswap->operations, "\nra\nrra") != NULL
-		|| ft_strstr(pswap->operations, "\nrb\nrrb") != NULL
-		|| ft_strstr(pswap->operations, "\nrra\nra") != NULL
-		|| ft_strstr(pswap->operations, "\nrrb\nrb") != NULL
-		|| ft_strstr(pswap->operations, "\nsa\nsa") != NULL
-		|| ft_strstr(pswap->operations, "\nsb\nsb") != NULL)
+	while (contains_suboptimal(pswap))
 		delete_operations(pswap);
-	replace(pswap, "\nsa\nsb\n", "\nss\n");
-	replace(pswap, "\nsb\nsa\n", "\nss\n");
-	replace(pswap, "\nrra\nrrb\n", "\nrrr\n");
-	replace(pswap, "\nrrb\nrra\n", "\nrrr\n");
-	replace(pswap, "\nra\nrb\n", "\nrr\n");
-	replace(pswap, "\nrb\nra\n", "\nrr\n");
+	replace(pswap, "sa", "sb", "ss");
+	replace(pswap, "sb", "sa", "ss");
+	replace(pswap, "ra", "rb", "rr");
+	replace(pswap, "rb", "ra", "rr");
+	replace(pswap, "rrb", "rra", "rrr");
+	replace(pswap, "rra", "rrb", "rrr");
 }

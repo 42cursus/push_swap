@@ -12,9 +12,9 @@
 
 #include "libswap.h"
 
-int ft_swap_chkdbg(t_pswap *pswap, int argc, char **argv)
+int	ft_swap_chkdbg(t_pswap *pswap, int argc, char **argv)
 {
-	int ret_val;
+	int	ret_val;
 
 	ret_val = 1;
 	pswap->debug = 0;

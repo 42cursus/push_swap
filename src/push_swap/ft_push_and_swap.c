@@ -95,26 +95,3 @@ void	ft_swap_sort_first_push(t_pswap *pswap, int pivot)
 	}
 	ft_swap_add_pivot_b(pswap, pivot);
 }
-
-void	ft_swap_sort_random(t_pswap *pswap)
-{
-	int	pivot_p;
-	int	top_in_a;
-
-	while (pswap->stack_a_size > 1 && ft_swap_is_sorted(pswap) == -1)
-	{
-		pswap->pushed_pivot = 0;
-		top_in_a = ft_swap_get_top(pswap, 'a');
-		pivot_p = ft_swap_get_pivot(pswap, 'a',
-				top_in_a, pswap->arg_tab_size - 1);
-		ft_swap_sort_first_push(pswap, pivot_p);
-		ft_check_few_in_a(pswap);
-	}
-	while (pswap->pivots_b_tab_size > 0
-		&& pswap->pivots_b[0] >= pswap->stack_a[pswap->top_a])
-		ft_swap_remove_pivot_b(pswap);
-	pswap->pivot_a = pswap->stack_a[ft_swap_get_top(pswap, 'a')];
-	while (!(ft_swap_is_sorted(pswap) == 0
-			&& pswap->stack_a_size == pswap->arg_tab_size))
-		ft_swap_push_back(pswap);
-}

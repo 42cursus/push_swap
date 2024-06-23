@@ -12,7 +12,7 @@
 
 #include "libswap.h"
 
-int ft_swap_push_back(t_pswap *pswap)
+int	ft_swap_push_back(t_pswap *pswap)
 {
 	pswap->pivot_b = 0;
 	pswap->pushed_pivot = 0;

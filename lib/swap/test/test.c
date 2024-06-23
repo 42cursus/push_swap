@@ -11,11 +11,8 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <sysexits.h>
 
-int main(int argc, char **argv)
+int	main(void)
 {
-	if (argc <= 1)
-		exit(EX_USAGE);
 	return (EXIT_SUCCESS);
 }

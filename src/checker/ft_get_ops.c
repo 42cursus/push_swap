@@ -12,17 +12,18 @@
 
 #include "pswap.h"
 
-bool ft_swap_validate_op(char *line)
+int	ft_swap_validate_op(char *line)
 {
-	return ft_strcmp(line, "sa\n") == 0 || ft_strcmp(line, "sb\n") == 0
-			   || ft_strcmp(line, "ss\n") == 0 || ft_strcmp(line, "pa\n") == 0
-			   || ft_strcmp(line, "pb\n") == 0 || ft_strcmp(line, "ra\n") == 0
-			   || ft_strcmp(line, "rb\n") == 0 || ft_strcmp(line, "rr\n") == 0
-			   || ft_strcmp(line, "rra\n") == 0 || ft_strcmp(line, "rrb\n") == 0
-			   || ft_strcmp(line, "rrr\n") == 0;
+	return (ft_strcmp(line, "sa\n") == 0 || ft_strcmp(line, "sb\n") == 0
+		|| ft_strcmp(line, "ss\n") == 0 || ft_strcmp(line, "pa\n") == 0
+		|| ft_strcmp(line, "pb\n") == 0 || ft_strcmp(line, "ra\n") == 0
+		|| ft_strcmp(line, "rb\n") == 0 || ft_strcmp(line, "rr\n") == 0
+		|| ft_strcmp(line, "rra\n") == 0
+		|| ft_strcmp(line, "rrb\n") == 0
+		|| ft_strcmp(line, "rrr\n") == 0);
 }
 
-int ft_get_ops(t_pswap *pswap)
+int	ft_get_ops(t_pswap *pswap)
 {
 	char	*line;
 	int		i;
@@ -34,7 +35,7 @@ int ft_get_ops(t_pswap *pswap)
 	{
 		i++;
 		if (ft_swap_validate_op(line))
-			ft_swap_apply_op(pswap, *(int *) ft_strtok(line, "\n"));
+			ft_swap_do_op(pswap, *(int *) ft_strtok(line, "\n"));
 		else
 			i = -1;
 		free(line);

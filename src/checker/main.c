@@ -12,11 +12,11 @@
 
 #include "pswap.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	int		error_code;
 	t_pswap	*pswap;
-	char 	*str;
+	char	*str;
 
 	if (argc <= 1)
 		exit(EXIT_SUCCESS);
@@ -33,9 +33,10 @@ int main(int argc, char **argv)
 	if (ft_get_ops(pswap) == -1)
 		return (ft_swap_error(pswap, -3));
 	str = "KO";
-	if ((ft_swap_is_sorted(pswap) == 0) && (pswap->arg_tab_size == pswap->stack_a_size))
+	if ((ft_swap_is_sorted(pswap) == 0)
+		&& (pswap->arg_tab_size == pswap->stack_a_size))
 		str = "OK";
-	ft_putstr_eol(str,"\n");
+	ft_putstr_eol(str, "\n");
 	free(pswap);
 	return (EXIT_SUCCESS);
 }
