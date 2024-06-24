@@ -28,7 +28,7 @@ int	main(int argc, char **argv)
 		return (ft_swap_error(pswap, error_code));
 	ft_swap_draw_ascii(pswap);
 	do_sort(pswap);
-	optimize(pswap);
+	optimize(pswap, 0);
 	ft_list_reverse(&pswap->ops);
 	foreach_fun = (void (*)(void *, void *)) ft_putstr_eol;
 	ft_list_foreach_ref(pswap->ops, foreach_fun, "\n");

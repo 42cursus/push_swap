@@ -16,6 +16,7 @@ gdb.txt
 /scratch/
 /resources/
 build/
+.push_swap
 replace-git-emails.sh
 **/build/
 

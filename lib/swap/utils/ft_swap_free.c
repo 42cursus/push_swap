@@ -14,6 +14,7 @@
 
 void	ft_swap_free(t_pswap *pswap)
 {
+	free(pswap->arg_tab);
 	free(pswap->stack_a);
 	free(pswap->stack_b);
 	free(pswap->sorted);

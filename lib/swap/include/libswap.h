@@ -12,7 +12,7 @@
 
 #ifndef LIBSWAP_H
 # define LIBSWAP_H
-# include "libft.h"
+# include "ft/libft.h"
 # define INT_MIN_LEN 11
 
 /**
@@ -61,6 +61,7 @@ typedef enum command
 
 struct s_pswap
 {
+	int				*arg_tab;
 	int				arg_tab_size;
 	int				sorted_min_nbr;
 	int				sorted_max_nbr;
@@ -100,6 +101,7 @@ void	ft_swap_do_rrb_op(t_pswap *pswap);
 void	ft_swap_do_rrr_op(t_pswap *pswap);
 
 int		ft_swap_count_arg_nbrs(char *argn);
+void	ft_swap_init(t_pswap *pswap);
 int		ft_swap_do_parse(int argc, char **argv, t_pswap *pswap);
 int		ft_swap_chkdbg(t_pswap *pswap, int argc, char **argv);
 void	ft_swap_draw_ascii(t_pswap *pswap);

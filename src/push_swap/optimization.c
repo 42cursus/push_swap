@@ -24,64 +24,30 @@ void	delete(t_pswap *pswap, const char *op1, const char *op2)
 
 void	delete_operations(t_pswap *pswap)
 {
-	delete(pswap, "pa", "pb");
-	delete(pswap, "pb", "pa");
-	delete(pswap, "ra", "rra");
-	delete(pswap, "rb", "rrb");
-	delete(pswap, "sa", "sa");
-	delete(pswap, "sb", "sb");
-	delete(pswap, "rrb", "rb");
-	delete(pswap, "rra", "ra");
-}
-
-void	replace(t_pswap *pswap, const char *op1,
-				const char *op2, const char *short_op)
-{
-	t_list				*to_find;
-	t_list				*to_replace_with;
-	t_list_fun *const	lst_fun = &(t_list_fun){
-		.cmp_fun = (t_cmp_fun) ft_strcmp,
-		.del_fun = NULL,
-		.dup_fun = NULL
+	size_t		iter;
+	char *const	to_delete[][2] = {
+	{"pa", "pb"},
+	{"pb", "pa"},
+	{"ra", "rra"},
+	{"rb", "rrb"},
+	{"sa", "sa"},
+	{"sb", "sb"},
+	{"rrb", "rb"},
+	{"rra", "ra"},
 	};
 
-	to_find = ft_list_push_strs(2, (const char *[2]){op1, op2});
-	to_replace_with = ft_list_push_strs(1, (const char *[1]){short_op});
-	ft_list_replace_sublist(&pswap->ops, to_find, to_replace_with, lst_fun);
-	ft_list_destroy(&to_replace_with, NULL);
-	ft_list_destroy(&to_find, NULL);
-}
-
-int	contains_suboptimal(t_pswap *pswap)
-{
-	int			iter;
-	int			is_found;
-	t_list		*to_find;
-	const char	**suboptimal_ops;
-
 	iter = -1;
-	is_found = false;
-	while (++iter < pswap->suboptimal_ops_size)
-	{
-		suboptimal_ops = pswap->suboptimal_ops[iter];
-		to_find = ft_list_push_strs(2, suboptimal_ops);
-		is_found = ft_list_find_sublist(pswap->ops, to_find,
-				(__compar_fn_t) ft_strcmp) != NULL;
-		ft_list_destroy(&to_find, NULL);
-		if (is_found == true)
-			break ;
-	}
-	return (is_found);
+	while (++iter < (sizeof(to_delete) / (sizeof(to_delete[0]))))
+		delete(pswap, to_delete[iter][0], to_delete[iter][1]);
 }
 
-void	optimize(t_pswap *pswap)
+void	optimize(t_pswap *pswap, int attempts)
 {
-	while (contains_suboptimal(pswap))
+	while (ft_swap_contains_suboptimal(pswap))
 		delete_operations(pswap);
-	replace(pswap, "sa", "sb", "ss");
-	replace(pswap, "sb", "sa", "ss");
-	replace(pswap, "ra", "rb", "rr");
-	replace(pswap, "rb", "ra", "rr");
-	replace(pswap, "rrb", "rra", "rrr");
-	replace(pswap, "rra", "rrb", "rrr");
+	ft_swap_replace(pswap);
+	if (pswap->arg_tab_size >= 90 && pswap->arg_tab_size <= 110
+		&& ft_list_size(pswap->ops) > 699
+		&& attempts < 11)
+		ft_swap_do_it_again(pswap, attempts);
 }

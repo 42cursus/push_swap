@@ -22,7 +22,7 @@ LIB_COMMAND		:= ar rcs
 RM				:= /bin/rm
 
 SRCS	 		:=
-DIRS			:= utils io sort
+DIRS			:= utils io sort stack
 
 include $(addsuffix /Makefile.mk,$(DIRS))
 
@@ -50,6 +50,6 @@ fclean: clean
 re: fclean all
 
 norm:
-		@norminette $(SRCS)
+		@norminette --use-gitignore
 
 .PHONY: all

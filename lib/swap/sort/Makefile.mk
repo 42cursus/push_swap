@@ -11,11 +11,12 @@
 # **************************************************************************** #
 
 FILES	= ft_swap_a_to_b.c \
-			ft_swap_b_to_a.c \
-			ft_swap_check.c \
-			ft_swap_pivot_ops.c \
-			ft_swap_push_back.c \
-			ft_swap_push_to.c \
-			ft_swap_sort.c
+            ft_swap_b_to_a.c \
+            ft_swap_check.c \
+            ft_swap_get_pivot.c \
+            ft_swap_pivot_ops.c \
+            ft_swap_push_back.c \
+            ft_swap_push_to.c \
+            ft_swap_sort.c
 
 SRCS    += $(FILES:%.c=$(dir $(lastword $(MAKEFILE_LIST)))%.c)

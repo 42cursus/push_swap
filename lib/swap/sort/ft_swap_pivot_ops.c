@@ -30,7 +30,6 @@ void	ft_swap_add_pivot_b(t_pswap *pswap, int pivot)
 	int	i;
 	int	*out;
 
-	i = 1;
 	if (ft_swap_chkgt_pivot(pswap->stack_b, pswap->top_b,
 			pswap->arg_tab_size - 1, pivot) != -1)
 		return ;
@@ -38,11 +37,9 @@ void	ft_swap_add_pivot_b(t_pswap *pswap, int pivot)
 	if (!out)
 		return ;
 	out[0] = pivot;
-	while (i < pswap->pivots_b_tab_size + 1)
-	{
+	i = 0;
+	while (++i < pswap->pivots_b_tab_size + 1)
 		out[i] = pswap->pivots_b[i - 1];
-		i++;
-	}
 	free(pswap->pivots_b);
 	pswap->pivots_b = out;
 	pswap->pivots_b_tab_size += 1;
