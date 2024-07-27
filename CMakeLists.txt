@@ -78,7 +78,7 @@ add_custom_command(TARGET fclean POST_BUILD
 # **************************************************************************** #
 
 set(TARGET_NAME "${PROJECT_NAME}_exe")
-set(TARGET_LIBRARIES ${FT_LIB_NAME} ${PSWP_LIB_NAME})
+set(TARGET_LIBRARIES asan lsan ${FT_LIB_NAME} ${PSWP_LIB_NAME})
 
 file(GLOB_RECURSE TARGET_HEADERS "${PROJECT_SOURCE_DIR}/src/push_swap/*.h")
 file(GLOB_RECURSE TARGET_SOURCES "${PROJECT_SOURCE_DIR}/src/push_swap/*.c")
@@ -90,8 +90,8 @@ set_target_properties(${TARGET_NAME} PROPERTIES
 target_compile_options(${TARGET_NAME} PRIVATE
         -Wno-error=parentheses
         -fno-omit-frame-pointer
-        #        -fsanitize=address
-        #        -fsanitize=leak
+        -fsanitize=address
+        -fsanitize=leak
 )
 target_include_directories(${TARGET_NAME} PRIVATE "${PROJECT_SOURCE_DIR}/include")
 target_link_libraries(${TARGET_NAME} "${TARGET_LIBRARIES}")
@@ -99,7 +99,7 @@ target_link_libraries(${TARGET_NAME} "${TARGET_LIBRARIES}")
 # **************************************************************************** #
 
 set(TARGET_NAME "checker_exe")
-set(TARGET_LIBRARIES ${FT_LIB_NAME} ${PSWP_LIB_NAME})
+set(TARGET_LIBRARIES asan lsan ${FT_LIB_NAME} ${PSWP_LIB_NAME})
 
 file(GLOB_RECURSE TARGET_HEADERS "${PROJECT_SOURCE_DIR}/src/checker/*.h")
 file(GLOB_RECURSE TARGET_SOURCES "${PROJECT_SOURCE_DIR}/src/checker/*.c")
@@ -109,10 +109,9 @@ set_target_properties(${TARGET_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}"
         OUTPUT_NAME "checker")
 target_compile_options(${TARGET_NAME} PRIVATE
-        -Wno-error=parentheses
         -fno-omit-frame-pointer
-        #        -fsanitize=address
-        #        -fsanitize=leak
+        -fsanitize=address
+        -fsanitize=leak
 )
 target_include_directories(${TARGET_NAME} PRIVATE "${PROJECT_SOURCE_DIR}/include")
 target_link_libraries(${TARGET_NAME} "${TARGET_LIBRARIES}")

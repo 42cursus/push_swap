@@ -24,11 +24,8 @@ int	main(int argc, char **argv)
 	if (pswap == NULL)
 		return (-1);
 	error_code = ft_swap_do_parse(argc, argv, pswap);
-	if ((error_code == -1) || (error_code == -2))
-	{
-		error_code = ft_swap_error(pswap, error_code);
-		return (error_code);
-	}
+	if (error_code)
+		return (ft_swap_error(pswap, error_code));
 	ft_swap_draw_ascii(pswap);
 	if (ft_get_ops(pswap) == -1)
 		return (ft_swap_error(pswap, -3));
@@ -37,6 +34,7 @@ int	main(int argc, char **argv)
 		&& (pswap->arg_tab_size == pswap->stack_a_size))
 		str = "OK";
 	ft_putstr_eol(str, "\n");
+	ft_swap_destroy(&pswap);
 	free(pswap);
 	return (EXIT_SUCCESS);
 }

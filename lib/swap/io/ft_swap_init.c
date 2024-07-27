@@ -81,7 +81,7 @@ void	ft_swap_init(t_pswap *pswap)
 	pswap->pushed_pivot = 0;
 	pswap->top_a = ft_swap_get_top(pswap, 'a');
 	pswap->top_b = ft_swap_get_top(pswap, 'b');
-	pswap->operations = ft_empty_string(1);
+	pswap->operations = ft_strnew(1);
 	pswap->ops = NULL;
 	init_swap_ops(&pswap->swap_ops, &pswap->swap_ops_size);
 	init_suboptimal_ops(&pswap->suboptimal_ops, &pswap->suboptimal_ops_size);

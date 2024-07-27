@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 	if (pswap == NULL)
 		return (-1);
 	error_code = ft_swap_do_parse(argc, argv, pswap);
-	if ((error_code == -1) || (error_code == -2))
+	if (error_code)
 		return (ft_swap_error(pswap, error_code));
 	ft_swap_draw_ascii(pswap);
 	do_sort(pswap);

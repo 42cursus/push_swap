@@ -31,7 +31,7 @@ int	*get_argtab(int arg_tab_size, char **argv, int i, int j)
 				while (argtab[k])
 					tab[j++] = ft_atoi(argtab[k++]);
 				i++;
-				ft_tab_free((void **) argtab);
+				ft_tab_str_free(argtab);
 			}
 		}
 	}
@@ -55,12 +55,12 @@ int	ft_swap_do_parse(int argc, char **argv, t_pswap *pswap)
 		else
 			pswap->arg_tab_size = -1;
 		if (pswap->arg_tab_size == -1)
-			return (-2);
+			return (-1);
 	}
 	i = ft_swap_chkdbg(pswap, argc, argv);
 	pswap->arg_tab = get_argtab(pswap->arg_tab_size, argv, i, 0);
 	if (ft_swap_check_dup(pswap->arg_tab, pswap->arg_tab_size) == -1)
-		return (-1);
+		return (-2);
 	ft_swap_init(pswap);
 	return (0);
 }

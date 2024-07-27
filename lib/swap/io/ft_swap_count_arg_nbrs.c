@@ -31,7 +31,7 @@ int	ft_swap_count_arg_nbrs(char *argn)
 			break ;
 		}
 	}
-	ft_tab_free((void **) str_tab);
+	ft_tab_str_free(str_tab);
 	if (j != 0)
 		ret_val = j;
 	return (ret_val);

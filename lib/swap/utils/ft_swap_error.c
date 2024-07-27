@@ -58,10 +58,9 @@ int	ft_swap_validate_input(char *nb)
 int	ft_swap_error(t_pswap *pswap, int err_code)
 {
 	if (err_code == -1)
-	{
-		free(pswap->stack_a);
-		free(pswap->stack_b);
-	}
+		;
+	else if (err_code == -2)
+		free(pswap->arg_tab);
 	else if (err_code == -3)
 		ft_swap_free(pswap);
 	free(pswap);
